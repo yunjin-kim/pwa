@@ -3,7 +3,13 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-let installPrompt = null;
+let installPrompt: BeforeInstallPromptEvent | null = null;
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{outcome: "accepted" | "dismissed"}>;
+  prompt(): Promise<void>;
+}
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,18 +35,21 @@ function App() {
   };
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (event: Event) => {
+    const handleBeforeInstallPrompt = (event: BeforeInstallPromptEvent) => {
       event.preventDefault();
       installPrompt = event;
       setIsInstallable(true);
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener(
+      "beforeinstallprompt",
+      handleBeforeInstallPrompt as EventListener
+    );
 
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
-        handleBeforeInstallPrompt
+        handleBeforeInstallPrompt as EventListener
       );
     };
   }, []);
