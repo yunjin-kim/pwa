@@ -1,4 +1,4 @@
-const fs = require("fs");
+import {writeFileSync} from "fs";
 require("dotenv").config(); // `.env.local`을 읽어오기 위해 필요
 
 const firebaseConfig = {
@@ -16,6 +16,6 @@ const content = `self.firebaseConfig = ${JSON.stringify(
   2
 )};`;
 
-fs.writeFileSync("public/firebase-config.js", content);
+writeFileSync("public/firebase-config.js", content);
 
 console.log("✅ Firebase 설정 파일 생성 완료: public/firebase-config.js");
