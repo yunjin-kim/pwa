@@ -6,7 +6,7 @@
   "packageManager": "yarn@4.3.1",
   "scripts": {
     "dev": "vite --port 3000",
-    "build": "tsc -b && vite build",
+    "build": "yarn postbuild && tsc -b && vite build",
     "lint": "eslint .",
     "postbuild": "node scripts/generate-firebase-config.cjs",
     "preview": "vite preview"
