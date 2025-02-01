@@ -17,18 +17,26 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.notification.body,
   });
 });
-
 self.addEventListener("push", (event) => {
   console.log("📩 Push 이벤트 발생:", event);
 
-  // 알림 데이터를 파싱
-  const data = event.data && event.data?.json() ? event.data.json() : {};
+  let data;
+
+  try {
+    // JSON 형식인 경우 파싱
+    data = event.data?.json();
+  } catch (error) {
+    // 문자열인 경우 처리
+    console.warn("Push 데이터가 문자열 형식으로 전달됨:", event.data.text());
+    data = {body: event.data.text()}; // 문자열 데이터를 기본 알림 본문으로 사용
+  }
+
   console.log("📩 Push 데이터:", data);
 
-  // 기본 알림 구성
-  const notificationTitle = data.title || "기본 제목";
+  // 알림 구성
+  const notificationTitle = data.title || "DevTools 테스트 알림";
   const notificationOptions = {
-    body: data.body || "기본 내용",
+    body: data.body || "푸시 알림 테스트 중",
     icon: data.icon || "/icon.png",
   };
 
