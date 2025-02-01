@@ -17,6 +17,7 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.notification.body,
   });
 });
+
 self.addEventListener("push", (event) => {
   console.log("📩 Push 이벤트 발생:", event);
 
