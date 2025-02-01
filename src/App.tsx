@@ -15,6 +15,14 @@ function App() {
   const [count, setCount] = useState(0);
   const [isInstallable, setIsInstallable] = useState(false);
 
+  useEffect(() => {
+    async function requestPermission() {
+      const permission = await Notification.requestPermission();
+      console.log("permission: ", permission);
+    }
+    requestPermission();
+  }, []);
+
   const handleClickInstallButton = async () => {
     if (!installPrompt) {
       alert("앱을 설치할 수 없는 환경이거나 이미 설치되었습니다.");
