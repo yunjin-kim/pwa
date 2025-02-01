@@ -17,3 +17,23 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.notification.body,
   });
 });
+
+self.addEventListener("push", (event) => {
+  console.log("📩 Push 이벤트 발생:", event);
+
+  // 알림 데이터를 파싱
+  const data = event.data ? event.data.json() : {};
+  console.log("📩 Push 데이터:", data);
+
+  // 기본 알림 구성
+  const notificationTitle = data.title || "기본 제목";
+  const notificationOptions = {
+    body: data.body || "기본 내용",
+    icon: data.icon || "/icon.png",
+  };
+
+  // 알림 표시
+  event.waitUntil(
+    self.registration.showNotification(notificationTitle, notificationOptions)
+  );
+});
