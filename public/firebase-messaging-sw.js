@@ -22,7 +22,7 @@ self.addEventListener("push", (event) => {
   console.log("📩 Push 이벤트 발생:", event);
 
   // 알림 데이터를 파싱
-  const data = event.data ? event.data.json() : {};
+  const data = event.data && event.data?.json() ? event.data.json() : {};
   console.log("📩 Push 데이터:", data);
 
   // 기본 알림 구성
